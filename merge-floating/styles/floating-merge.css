@@ -1,0 +1,248 @@
+/**
+ * Estilos adicionales para el Merge Flotante Espacial
+ */
+
+/* Prevenir selección de texto durante drag */
+.floating-merge-game {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: none;
+}
+
+/* Cursor para objetos arrastrables */
+.draggable-object {
+  cursor: grab;
+}
+
+.draggable-object:active {
+  cursor: grabbing;
+}
+
+/* Efecto de levitación */
+@keyframes levitate {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.levitate {
+  animation: levitate 3s ease-in-out infinite;
+}
+
+/* Efecto de brillo pulsante */
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px currentColor);
+  }
+  50% {
+    filter: drop-shadow(0 0 30px currentColor);
+  }
+}
+
+.glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Efecto de spawn */
+@keyframes spawn-pop {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+.spawn-pop {
+  animation: spawn-pop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Efecto de fusión */
+@keyframes merge-explosion {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.merge-explosion {
+  animation: merge-explosion 0.5s ease-out forwards;
+}
+
+/* Shake para feedback */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Indicador de merge posible */
+.merge-indicator {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 215, 0, 0.6);
+  animation: merge-indicator-pulse 1s ease-in-out infinite;
+}
+
+@keyframes merge-indicator-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Partículas de estrella */
+.star-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px white;
+  animation: star-twinkle 2s ease-in-out infinite;
+}
+
+@keyframes star-twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Nebulosa animada */
+.nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: nebula-float 20s ease-in-out infinite;
+}
+
+@keyframes nebula-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(50px, -30px) scale(1.1);
+  }
+  50% {
+    transform: translate(-30px, 50px) scale(0.9);
+  }
+  75% {
+    transform: translate(-50px, -20px) scale(1.05);
+  }
+}
+
+/* Plataforma flotante */
+.floating-platform {
+  transition: transform 0.3s ease;
+}
+
+.floating-platform:hover {
+  transform: scale(1.02);
+}
+
+/* Sombra dinámica */
+.dynamic-shadow {
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+  transition: filter 0.3s ease;
+}
+
+.dynamic-shadow:hover {
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6));
+}
+
+/* Botones con efecto de cristal */
+.glass-button {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.glass-button:hover {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Scrollbar personalizado */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #60a5fa, #a78bfa);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .floating-object {
+    font-size: 2rem;
+  }
+  
+  .platform-svg {
+    transform: scale(0.8);
+  }
+  
+  .game-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Modo oscuro (default) */
+.dark-mode {
+  color-scheme: dark;
+}
+
+/* Transiciones suaves */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efecto de profundidad */
+.depth-layer-1 { z-index: 10; }
+.depth-layer-2 { z-index: 20; }
+.depth-layer-3 { z-index: 30; }
+.depth-layer-drag { z-index: 100; }
