@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#080814" />
+  <meta name="description" content="Frenzy Merge Space: fusiona materia estelar y construye la StarForge Ark." />
+  <title>Frenzy Merge Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Frenzy Merge Space — inicio">
+        <span class="brand-mark">FM</span>
+        <span><strong>FRENZY</strong><small>MERGE SPACE</small></span>
+      </a>
+      <div class="pilot"><span class="status-dot"></span> PILOTO EN LÍNEA</div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">PROTOCOLO STARFORGE // 01</p>
+        <h1>FUSIONA EL<br><em>UNIVERSO.</em></h1>
+        <p class="intro">Combina materia estelar, desarrolla tecnología imposible y construye la nave definitiva antes de que el sector colapse.</p>
+      </div>
+      <div class="mission-card">
+        <span>MISIÓN ACTIVA</span>
+        <strong id="missionTitle">Crea un Fragmento</strong>
+        <div class="progress"><i id="missionProgress"></i></div>
+        <small id="missionText">0 / 1 fusiones</small>
+      </div>
+    </section>
+
+    <section class="game-layout">
+      <aside class="stats-panel panel">
+        <p class="panel-label">TELEMETRÍA</p>
+        <div class="stat"><span>PUNTUACIÓN</span><strong id="score">000000</strong></div>
+        <div class="stat"><span>FUSIONES</span><strong id="merges">00</strong></div>
+        <div class="stat"><span>NIVEL MÁXIMO</span><strong id="maxLevel">01</strong></div>
+        <div class="divider"></div>
+        <p class="panel-label">SIGUIENTE SEÑAL</p>
+        <div class="next-object" id="nextObject"><b>✨</b><span>Polvo Estelar</span></div>
+        <button id="deployButton" class="primary-button">DESPLEGAR OBJETO</button>
+        <p class="hint">Selecciona dos objetos iguales para fusionarlos.</p>
+      </aside>
+
+      <div class="board-wrap">
+        <div class="board-head"><span>SECTOR A-17</span><small id="boardStatus">12 ESPACIOS DISPONIBLES</small></div>
+        <div id="board" class="board" role="grid" aria-label="Tablero de fusión espacial"></div>
+      </div>
+
+      <aside class="codex-panel panel">
+        <p class="panel-label">ARCHIVO DE OBJETOS</p>
+        <div id="codex" class="codex"></div>
+        <button id="resetButton" class="ghost-button">REINICIAR PARTIDA</button>
+      </aside>
+    </section>
+
+    <footer>
+      <span>UNA EXPERIENCIA PILUKARTS</span>
+      <span>BUILD 1.0 // SISTEMA ESTABLE</span>
+    </footer>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
