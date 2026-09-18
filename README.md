@@ -11,6 +11,8 @@ La demo no requiere instalación: abre `index.html` en un navegador o visita la 
 3. Usa **Desplegar objeto** para incorporar nueva materia.
 4. Desbloquea los diez niveles del archivo estelar.
 
+Cada 30 segundos ocurre una **fractura espacial**: el tablero adopta una geometría aleatoria y la materia cambia de posición sin perderse. Matriz, diamante, órbita y grieta gemela obligan a adaptar la estrategia durante la partida.
+
 El progreso se conserva localmente en el navegador.
 
 ## Estructura
