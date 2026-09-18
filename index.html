@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="effects.css" />
 </head>
 <body>
   <div class="stars" aria-hidden="true"></div>
@@ -50,7 +51,7 @@
       </aside>
 
       <div class="board-wrap">
-        <div class="board-head"><span>SECTOR A-17</span><small id="boardStatus">12 ESPACIOS DISPONIBLES</small></div>
+        <div class="board-head"><span id="sectorName">SECTOR MATRIZ</span><div><small id="shiftTimer">FRACTURA EN 30s</small><small id="boardStatus">12 ESPACIOS DISPONIBLES</small></div></div>
         <div id="board" class="board" role="grid" aria-label="Tablero de fusión espacial"></div>
       </div>
 
@@ -66,6 +67,7 @@
       <span>BUILD 1.0 // SISTEMA ESTABLE</span>
     </footer>
   </main>
+  <div id="riftOverlay" class="rift-overlay" aria-hidden="true"><span>⚠ FRACTURA ESPACIAL</span><strong>RECONFIGURANDO UNIVERSO</strong></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="app.js"></script>
 </body>

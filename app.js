@@ -12,7 +12,16 @@ const OBJECTS = [
 ];
 
 const initialBoard = [0, 0, null, null, 1, null, 0, null, null, 1, null, null, null, null, null, null];
-let state = JSON.parse(localStorage.getItem('frenzy-merge-state')) || { board: initialBoard, score: 0, merges: 0, selected: null, maxLevel: 1 };
+const SHAPES = [
+  { name: 'SECTOR MATRIZ', cells: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] },
+  { name: 'NÚCLEO DIAMANTE', cells: [1,2,4,5,6,7,8,9,10,11,13,14] },
+  { name: 'ÓRBITA EXTERIOR', cells: [0,1,2,3,4,7,8,11,12,13,14,15] },
+  { name: 'GRIETA GEMELA', cells: [0,1,2,5,6,7,8,9,10,13,14,15] }
+];
+const SHIFT_SECONDS = 30;
+let state = JSON.parse(localStorage.getItem('frenzy-merge-state')) || { board: initialBoard, score: 0, merges: 0, selected: null, maxLevel: 1, shape: 0 };
+if (state.shape == null) state.shape = 0;
+let shiftRemaining = SHIFT_SECONDS;
 const $ = (id) => document.getElementById(id);
 
 function persist() { localStorage.setItem('frenzy-merge-state', JSON.stringify(state)); }
@@ -21,9 +30,10 @@ function showToast(message) { const toast = $('toast'); toast.textContent = mess
 
 function render() {
   const board = $('board'); board.innerHTML = '';
+  const activeCells = SHAPES[state.shape].cells;
   state.board.forEach((level, index) => {
     const cell = document.createElement('button');
-    cell.className = `cell${state.selected === index ? ' selected' : ''}`;
+    cell.className = `cell${state.selected === index ? ' selected' : ''}${activeCells.includes(index) ? '' : ' inactive'}`;
     cell.setAttribute('role', 'gridcell');
     cell.setAttribute('aria-label', level == null ? `Espacio ${index + 1} vacío` : `${OBJECTS[level].name}, nivel ${level + 1}`);
     if (level != null) cell.innerHTML = `<span class="object" style="--glow:${OBJECTS[level].glow}">${OBJECTS[level].icon}<small>LV.${level + 1}</small></span>`;
@@ -32,8 +42,10 @@ function render() {
   $('score').textContent = String(state.score).padStart(6, '0');
   $('merges').textContent = String(state.merges).padStart(2, '0');
   $('maxLevel').textContent = String(state.maxLevel).padStart(2, '0');
-  const empty = state.board.filter(x => x == null).length;
+  const empty = activeCells.filter(i => state.board[i] == null).length;
   $('boardStatus').textContent = `${empty} ESPACIOS DISPONIBLES`;
+  $('sectorName').textContent = SHAPES[state.shape].name;
+  $('shiftTimer').textContent = `FRACTURA EN ${shiftRemaining}s`;
   $('missionProgress').style.width = `${Math.min(state.merges / 5 * 100, 100)}%`;
   $('missionText').textContent = `${Math.min(state.merges, 5)} / 5 fusiones`;
   $('missionTitle').textContent = state.merges >= 5 ? 'Misión completada' : 'Cadena de reacción';
@@ -42,6 +54,7 @@ function render() {
 }
 
 function selectCell(index) {
+  if (!SHAPES[state.shape].cells.includes(index)) return;
   const level = state.board[index];
   if (level == null) { state.selected = null; render(); return; }
   if (state.selected == null) { state.selected = index; render(); return; }
@@ -55,12 +68,26 @@ function selectCell(index) {
 }
 
 function deploy() {
-  const empty = state.board.map((v, i) => v == null ? i : -1).filter(i => i >= 0);
+  const empty = SHAPES[state.shape].cells.filter(i => state.board[i] == null);
   if (!empty.length) { showToast('SECTOR LLENO · FUSIONA OBJETOS'); return; }
   const index = empty[Math.floor(Math.random() * empty.length)]; const level = nextLevel();
   state.board[index] = level; state.selected = null; render(); showToast(`${OBJECTS[level].name.toUpperCase()} DESPLEGADO`);
 }
 
+function shiftUniverse() {
+  const occupied = state.board.filter(x => x != null);
+  const candidates = SHAPES.map((shape, index) => ({ shape, index })).filter(x => x.index !== state.shape && x.shape.cells.length >= occupied.length);
+  state.shape = candidates.length ? candidates[Math.floor(Math.random() * candidates.length)].index : 0;
+  const destinations = [...SHAPES[state.shape].cells].sort(() => Math.random() - .5);
+  state.board = Array(16).fill(null);
+  occupied.forEach((object, index) => { state.board[destinations[index]] = object; });
+  state.selected = null; shiftRemaining = SHIFT_SECONDS;
+  $('riftOverlay').classList.add('active'); $('board').classList.add('shifting');
+  setTimeout(render, 420);
+  setTimeout(() => { $('riftOverlay').classList.remove('active'); $('board').classList.remove('shifting'); showToast(`NUEVA GEOMETRÍA · ${SHAPES[state.shape].name}`); }, 1100);
+}
+
 $('deployButton').addEventListener('click', deploy);
-$('resetButton').addEventListener('click', () => { state = { board: [...initialBoard], score: 0, merges: 0, selected: null, maxLevel: 1 }; render(); showToast('PARTIDA REINICIADA'); });
+$('resetButton').addEventListener('click', () => { state = { board: [...initialBoard], score: 0, merges: 0, selected: null, maxLevel: 1, shape: 0 }; shiftRemaining = SHIFT_SECONDS; render(); showToast('PARTIDA REINICIADA'); });
+setInterval(() => { shiftRemaining--; $('shiftTimer').textContent = `FRACTURA EN ${shiftRemaining}s`; if (shiftRemaining <= 0) shiftUniverse(); }, 1000);
 render();
